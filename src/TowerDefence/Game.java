@@ -6,6 +6,7 @@ public class Game {
     private int money;
     private int enemysCount;
     private int enemyMoney;
+    private static int totalEnemyCount; //Статическое поле - счетчик убитых врагов
     private ArrayList<Enemy> enemys;
     public Game() {
         enemysCount = 0;
@@ -13,12 +14,15 @@ public class Game {
         enemyMoney = 20;
         enemys = new ArrayList<>();
     }
+    public static int getTotalEnemyCount() {
+        return totalEnemyCount;
+    }
     public int getMoney() {return money;}
     public void setMoney(int money) {this.money = money;}
     public int getEnemyMoney() {return enemyMoney;}
     public void earnMoney(int n) {this.money += n;}
     public void upenemys() {this.enemyMoney += 20;}
-    public void buyEnemy() {
+    public void buyEnemy() { //Рандомайзер врагов
         do {
             int r = (int) (Math.random() * 3) + 1;
             Enemy newEnemy = new Enemy();
@@ -52,7 +56,7 @@ public class Game {
             }
         } while (enemyMoney >= 2);
     }
-    public boolean wave(Tower mainTower, TowerDef[] towers, Map gameMap){
+    public boolean wave(Tower mainTower, TowerDef[] towers, Map gameMap){ //Волна
         int k = 0;
         boolean f = true;
         int chek = this.enemysCount;
@@ -96,6 +100,7 @@ public class Game {
                     gameMap.clear(enemys.get(i).getPlace(), 1);
                     money += enemys.get(i).getCost() * 2;
                     enemys.remove(i);
+                    totalEnemyCount++;
                     enemysCount--;
                     i--;
                 }

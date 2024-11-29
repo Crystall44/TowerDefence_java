@@ -1,7 +1,5 @@
 package TowerDefence;
 import java.util.Scanner;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
@@ -31,7 +29,7 @@ public class Main {
                         System.out.println("Ваша главная башня разрушена! Вы проиграли.");
                         gameOver = true;
                     } else {
-                        System.out.println("Вы отбились от волны врагов, заработанно золота: "+ game.getMoney());
+                        System.out.println("Вы отбились от волны врагов, заработанно золота: "+ game.getMoney() + "\nВсего убито врагов за игру: " + Game.getTotalEnemyCount());
                     }
                     break;
                 case 2:

@@ -16,19 +16,19 @@ public class Map {
         place[39][1] = '9';
     }
 
-    public void clear(int pos, int n){
+    public void clear(int pos, int n){ //Очистить позицию
         place[pos][n] = ' ';
     }
-    public void towerPlace(int num) {
+    public void towerPlace(int num) {//Построить башню
         place[num * 5 + 2][0] = 'T';
     }
-    public void towerBrake(int num) {
+    public void towerBrake(int num) {//Разрушить башню
         place[num * 5 + 2][0] = '0';
     }
-    public void placeEnemy(int pos, char pct) {
+    public void placeEnemy(int pos, char pct) {//Спавн врага
         place[pos][1] = pct;
     }
-    public void printMap() {
+    public void printMap() {//Вывести карту
         System.out.print("\033[H\033[2J");
         System.out.flush();
         for (int i = 0; i < 3; i++) {

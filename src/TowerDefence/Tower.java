@@ -17,15 +17,15 @@ public class Tower {
     public short getHp() {return hp;}
     public boolean isNear(int enemyPlace) {return enemyPlace >= 35;}
 
-    public void repair(){
+    public void repair(){ //Починка главной башни
         hp += 500;
         if(hp > 3000) hp = 3000;
     }
-    public void upDmg() {
+    public void upDmg() { //Повышение урона
         lvl++;
         dmg += 20;
     }
-    public void Info() {
+    public void Info() { //Информация о главной башне
         System.out.println("Здоровье = " + hp + ", урон = " + dmg + ", уровень = " + lvl);
     }
 }
