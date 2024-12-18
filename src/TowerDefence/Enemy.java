@@ -24,7 +24,6 @@ public class Enemy {
     public void move() {place++;}
     public boolean isAlive() {return hp > 0;}
     public char getPct() {return pct;}
-    public short getHp() {return hp;}
     public short getDmg() {return dmg;}
     public int getCost() {return cost;}
     public int getPlace() {return place;}

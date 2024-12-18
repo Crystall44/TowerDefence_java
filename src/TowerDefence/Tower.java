@@ -14,7 +14,6 @@ public class Tower {
     public boolean isAlive() {return hp > 0;}
     public short getDamage() {return dmg;}
     public short getLvl() {return lvl;}
-    public short getHp() {return hp;}
     public boolean isNear(int enemyPlace) {return enemyPlace >= 35;}
 
     public void repair(){ //Починка главной башни

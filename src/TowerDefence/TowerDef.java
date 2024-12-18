@@ -11,7 +11,6 @@ public class TowerDef {
         range = 0;
     }
 
-    public void setLvl(short lvl) {this.lvl = lvl;}
     public void setDmg(short dmg) {this.dmg = dmg;}
     public void setRange(short range) {this.range = range;}
 
