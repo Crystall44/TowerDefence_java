@@ -1,12 +1,14 @@
 package TowerDefence;
-public class Enemy {
-    private String name;
-    private int cost;
-    private short hp;
-    private short dmg;
-    private char pct;
-    private int place;
+// Класс для врагов
+class Enemy {
+    protected String name;  // Имя врага
+    protected int cost;     // Стоимость врага
+    protected short hp;     // Здоровье врага
+    protected short dmg;    // Урон врага
+    protected char pct;     // Символ, представляющий врага
+    protected int place;    // Место врага
 
+    // Конструктор, инициализирующий значения
     public Enemy() {
         hp = 0;
         cost = 0;
@@ -15,16 +17,54 @@ public class Enemy {
         place = -1;
     }
 
-    public void setName(String name) {this.name = name;}
-    public void setHp(short hp) {this.hp = hp;}
-    public void setCost(int cost) {this.cost = cost;}
-    public void setDmg(short dmg) {this.dmg = dmg;}
-    public void setPct(char pct) {this.pct = pct;}
-    public void takeDmg(short damage) {hp -= damage;}
-    public void move() {place++;}
-    public boolean isAlive() {return hp > 0;}
-    public char getPct() {return pct;}
-    public short getDmg() {return dmg;}
-    public int getCost() {return cost;}
-    public int getPlace() {return place;}
+    // Конструктор копирования
+    public Enemy(Enemy other) {
+        name = other.name;
+        cost = other.cost;
+        hp = other.hp;
+        dmg = other.dmg;
+        pct = other.pct;
+    }
+
+    // Оператор присваивания
+    public Enemy assign(Enemy other) {
+        if (this != other) {
+            name = other.name;
+            cost = other.cost;
+            hp = other.hp;
+            dmg = other.dmg;
+            pct = other.pct;
+        }
+        return this;
+    }
+
+    // Методы-сеттеры и геттеры
+    public void setName(String n) { name = n; }
+    public void setHp(short h) { hp = h; }
+    public void setCost(int c) { cost = c; }
+    public void setDmg(short d) { dmg = d; }
+    public void setPct(char p) { pct = p; }
+
+    // Уменьшение здоровья врага на величину урона
+    public void takeDmg(short damage) {
+        hp -= damage;
+    }
+
+    // Проверка, жив ли враг
+    public boolean isAlive() {
+        return hp > 0;
+    }
+
+    // Методы-геттеры
+    public char getPct() { return pct; }
+    public short getHp() { return hp; }
+    public void setPlace(int p) { place = p; }
+    public int getPlace() { return place; }
+    public short getDmg() { return dmg; }
+    public int getCost() { return cost; }
+
+    // Перемещение врага
+    public void move() {
+        place++;
+    }
 }

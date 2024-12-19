@@ -7,9 +7,9 @@ public class Main {
         Shop shop = new Shop();
         Game game = new Game();
         TowerDef[] towers = new TowerDef[8];
-
+        int booster = 0;
         for(int i = 0;i < towers.length; i++){
-            towers[i] = new TowerDef();
+            towers[i] = new TowerDef((short)0, (short)0, (short)0, false);
         }
         Scanner scanner = new Scanner(System.in);
         System.out.println("Добро пожаловать в игру Tower Defence!");
@@ -32,7 +32,7 @@ public class Main {
                     }
                     break;
                 case 2:
-                    int mon = shop.info(mainTower, game.getMoney(), towers, gameMap);
+                    int mon = shop.Info(mainTower, game.getMoney(), towers, gameMap, booster);
                     game.setMoney(mon);
                     break;
                 case 3:

@@ -70,7 +70,7 @@ public class Game {
                 for (int i = 0;i < enemysCount; i++) {
                     if(enemys.get(i).isAlive()) {
                         if (towers[j].isNear(enemys.get(i).getPlace(), j) && towers[j].getLvl() != 0) {
-                            enemys.get(i).takeDmg(towers[j].getDmg());
+                            enemys.get(i).takeDmg(towers[j].getDamage());
                             break;
                         }
                     }
