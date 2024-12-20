@@ -34,16 +34,6 @@ public class Game {
             }
         }
         do {
-            if (wave % 5 == 0 && enemysCount == 0) {
-                BossEnemy boss = new BossEnemy();
-                if (enemyMoney >= boss.getCost()) {
-                    enemyMoney -= boss.getCost();
-                    boss.setMoveStrategy(new SlowMove());
-                    enemys.add(boss);
-                    enemysCount++;
-                    enemys.get(enemysCount - 1).setPlace(-1 * enemysCount);
-                }
-            }
             Enemy newEnemy = new Enemy();
             Random rand = new Random();
             int r = rand.nextInt(4) + 1;

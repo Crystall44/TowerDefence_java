@@ -11,5 +11,10 @@ class FastEnemy extends Enemy {
         setPct('F');
         maxHp = hp;
         setPlace(-2);
+        setMoveStrategy(new FastMove());
+    }
+    @Override
+    public String getDescription() {
+        return "Быстрый враг - соответствует названию, быстрый и опасный враг.\\nДвигается очень быстро, наносит много урона, но у него совсем мало здоровья.\n";
     }
 }

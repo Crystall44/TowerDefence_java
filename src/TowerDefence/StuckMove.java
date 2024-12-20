@@ -6,4 +6,7 @@ class StuckMove implements MoveStrategy {
     public void move(int[] place, int hp, int maxHp) {
         // На месте (например, оглушение)
     }
+    public String getSpeedDescription() {
+        return "Стоит на месте.";  // Реализация метода
+    }
 }
