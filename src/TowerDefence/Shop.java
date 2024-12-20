@@ -75,12 +75,23 @@ public class Shop {
                     } while (i < 1 || i > 8);
 
                     TowerDef deftow = deftowers[i - 1];
-                    deftow.Info();
                     do {
                         TowerDef usual = new TowerDef((short) 0, (short) 0, (short) 0, false);
+                        usual.setType(1);
                         SniperTower sniper = new SniperTower((short) 0, (short) 0, (short) 0, false);
+                        sniper.setType(2);
                         RapidFireTower rapid = new RapidFireTower((short) 10, (short) 2, (short) 1, true, 2);
-
+                        rapid.setType(3);
+                        if(deftow.getType() == 1) {
+                            deftow.Info();
+                        } else if(deftow.getType() == 2) {
+                            sniper.clone(deftow);
+                            sniper.Info();
+                        } else {
+                            rapid.clone(deftow);
+                            deftow.Info();
+                            rapid.Info();
+                        }
                         System.out.println("\n1.Купить башню - 10");
                         System.out.println("2.Улучшить - " + upgradeCost);
                         System.out.println("3.Удалить башню");

@@ -6,6 +6,7 @@ public class Main {
         Map gameMap = new Map();
         Shop shop = new Shop();
         Game game = new Game();
+        int wave = 0;
         TowerDef[] towers = new TowerDef[8];
         int booster = 0;
         for(int i = 0;i < towers.length; i++){
@@ -22,8 +23,9 @@ public class Main {
                 case 1:
                     System.out.print("\033[H\033[2J");
                     System.out.flush();
-                    game.buyEnemy();
-                    boolean waveResult = game.wave(mainTower, towers, gameMap);
+                    wave++;
+                    game.buyEnemy(wave);
+                    boolean waveResult = game.Wave(mainTower, towers, gameMap);
                     if(!waveResult || !mainTower.isAlive()) {
                         System.out.println("Ваша главная башня разрушена! Вы проиграли.");
                         gameOver = true;

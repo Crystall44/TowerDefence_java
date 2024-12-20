@@ -22,10 +22,32 @@ public class Game {
     public int getEnemyMoney() {return enemyMoney;}
     public void earnMoney(int n) {this.money += n;}
     public void upenemys() {this.enemyMoney += 20;}
-    public void buyEnemy() { //Рандомайзер врагов
+    public void buyEnemy(int wave) { //Рандомайзер врагов
+        if (wave % 5 == 0 && enemysCount == 0) {
+            BossEnemy boss = new BossEnemy();
+            if (enemyMoney >= boss.getCost()) {
+                enemyMoney -= boss.getCost();
+                boss.setMoveStrategy(new SlowMove());
+                enemys.add(boss);
+                enemysCount++;
+                boss.setPlace(-1 * enemysCount);
+            }
+        }
         do {
-            int r = (int) (Math.random() * 3) + 1;
+            if (wave % 5 == 0 && enemysCount == 0) {
+                BossEnemy boss = new BossEnemy();
+                if (enemyMoney >= boss.getCost()) {
+                    enemyMoney -= boss.getCost();
+                    boss.setMoveStrategy(new SlowMove());
+                    enemys.add(boss);
+                    enemysCount++;
+                    enemys.get(enemysCount - 1).setPlace(-1 * enemysCount);
+                }
+            }
             Enemy newEnemy = new Enemy();
+            Random rand = new Random();
+            int r = rand.nextInt(4) + 1;
+
             switch (r) {
                 case 1:
                     newEnemy.setName("Zombe");
@@ -33,6 +55,7 @@ public class Game {
                     newEnemy.setHp((short) 100);
                     newEnemy.setDmg((short) 10);
                     newEnemy.setPct('Z');
+                    newEnemy.setMoveStrategy(new NormalMove());
                     break;
                 case 2:
                     newEnemy.setName("Skeleton");
@@ -40,6 +63,7 @@ public class Game {
                     newEnemy.setHp((short) 30);
                     newEnemy.setDmg((short) 20);
                     newEnemy.setPct('S');
+                    newEnemy.setMoveStrategy(new NormalMove());
                     break;
                 case 3:
                     newEnemy.setName("Angry Zombe");
@@ -47,74 +71,94 @@ public class Game {
                     newEnemy.setHp((short) 75);
                     newEnemy.setDmg((short) 25);
                     newEnemy.setPct('A');
+                    newEnemy.setMoveStrategy(new AdaptiveMove());
+                    break;
+                case 4:
+                    FastEnemy fastEnemy = new FastEnemy();
+                    newEnemy.setName(fastEnemy.getName());
+                    newEnemy.setCost(fastEnemy.getCost());
+                    newEnemy.setHp(fastEnemy.getHp());
+                    newEnemy.setDmg(fastEnemy.getDmg());
+                    newEnemy.setPct(fastEnemy.getPct());
+                    newEnemy.setMoveStrategy(new FastMove());
                     break;
             }
-            if (this.enemyMoney >= newEnemy.getCost()) {
-                this.enemyMoney -= newEnemy.getCost();
-                this.enemys.add(newEnemy);
-                this.enemysCount++;
+            if (enemyMoney >= newEnemy.getCost()) {
+                enemyMoney -= newEnemy.getCost();
+                enemys.add(newEnemy);
+                enemysCount++;
+                enemys.get(enemysCount - 1).setPlace(-1 * enemysCount);
             }
         } while (enemyMoney >= 2);
     }
-    public boolean wave(Tower mainTower, TowerDef[] towers, Map gameMap){ //Волна
+    public boolean Wave(Tower mainTower, TowerDef[] towers, Map gameMap) {
         int k = 0;
         boolean f = true;
-        int chek = this.enemysCount;
+        int i = 0;
+        int chek = enemysCount;
         do {
-            if(k < chek) {
-                gameMap.placeEnemy(0, enemys.get(k).getPct());
-                k++;
-                enemys.get(k - 1).move();
-            }
             for (int j = 0; j < 8; j++) {
-                for (int i = 0;i < enemysCount; i++) {
-                    if(enemys.get(i).isAlive()) {
-                        if (towers[j].isNear(enemys.get(i).getPlace(), j) && towers[j].getLvl() != 0) {
-                            enemys.get(i).takeDmg(towers[j].getDamage());
-                            break;
+                if (towers[j].isBoosted()) {
+                    for (int p = 0; p < 3; p++) {
+                        for (i = 0; i < enemysCount; i++) {
+                            if (enemys.get(i).isAlive()) {
+                                if (towers[j].isNear(enemys.get(i).getPlace(), j) && (towers[j].getLvl() != 0) && enemys.get(i).getPlace() >= 0) {
+                                    enemys.get(i).takeDmg(towers[j].getDamage());
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    for (i = 0; i < enemysCount; i++) {
+                        if (enemys.get(i).isAlive()) {
+                            if (towers[j].isNear(enemys.get(i).getPlace(), j) && (towers[j].getLvl() != 0) && enemys.get(i).getPlace() >= 0) {
+                                enemys.get(i).takeDmg(towers[j].getDamage());
+                                break;
+                            }
                         }
                     }
                 }
             }
-            for(int i = 0; i < enemysCount; i++) {
-                if (enemys.get(i).isAlive() && enemys.get(i) != null) {
-                    if (mainTower.isNear(enemys.get(i).getPlace())) {
+            for (i = 0; i < enemysCount; i++) {
+                if (enemys.get(i).isAlive()) {
+                    if (mainTower.isNear(enemys.get(i).getPlace()) && enemys.get(i).getPlace() >= 0) {
                         enemys.get(i).takeDmg(mainTower.getDamage());
-                        if(!enemys.get(i).isAlive()) {
-                            gameMap.clear(enemys.get(i).getPlace(), 1);
-                            this.money += enemys.get(i).getCost();
-                        }
+                        break;
                     }
                 }
             }
-            for (int i = 0; i < enemysCount; i++) {
+            for (i = 0; i < enemysCount; i++) {
                 if (enemys.get(i).isAlive()) {
                     if (enemys.get(i).getPlace() != 38 && enemys.get(i).getPlace() >= 0) {
                         gameMap.clear(enemys.get(i).getPlace(), 1);
                         enemys.get(i).move();
+                        if (enemys.get(i).getPlace() > 38) enemys.get(i).setPlace(38);
                         gameMap.placeEnemy(enemys.get(i).getPlace(), enemys.get(i).getPct());
-                    } else {
+                    } else if (enemys.get(i).getPlace() == 38) {
                         mainTower.takeDmg(enemys.get(i).getDmg());
+                    } else {
+                        enemys.get(i).move();
+                        if (enemys.get(i).getPlace() == 0) gameMap.placeEnemy(0, enemys.get(i).getPct());
                     }
                 } else {
                     gameMap.clear(enemys.get(i).getPlace(), 1);
                     money += enemys.get(i).getCost() * 2;
                     enemys.remove(i);
-                    totalEnemyCount++;
                     enemysCount--;
                     i--;
                 }
             }
             gameMap.printMap();
-            try{
+            try {
                 Thread.sleep(800);
-            } catch(InterruptedException e) {
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            if (enemysCount == 0 || !mainTower.isAlive()) {
-                f = false;
-            }
+            if (enemysCount == 0) f = false;
+            if (!mainTower.isAlive()) f = false;
         } while (f);
+        enemysCount = 0;
         if (!mainTower.isAlive()) {
             System.out.println("Вы проиграли!");
             return false;
@@ -124,3 +168,4 @@ public class Game {
         }
     }
 }
+

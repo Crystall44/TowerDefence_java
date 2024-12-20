@@ -7,6 +7,7 @@ class TowerDef extends AbstractTower implements Upgradable {
     protected short range;    // Дальность
     protected boolean boostTower;  // Увеличение башни
     protected int attackSpeed;     // Скорость атаки
+    protected int type;         //Тип башни
     // Конструктор
     public TowerDef(short dmg1, short lvl1, short range1, boolean boostTower1) {
         dmg = dmg1;
@@ -22,6 +23,7 @@ class TowerDef extends AbstractTower implements Upgradable {
         range = other.range;
         boostTower = other.boostTower;
         attackSpeed = other.attackSpeed;
+        type = other.type;
     }
 
     // Методы-сеттеры
@@ -37,6 +39,14 @@ class TowerDef extends AbstractTower implements Upgradable {
     // Получение уровня
     public short getLvl() {
         return lvl;
+    }
+
+    public void setType(int t) {
+        type = t;
+    }
+
+    public int getType() {
+        return type;
     }
 
     // Проверка, находится ли враг в пределах досягаемости
@@ -57,6 +67,7 @@ class TowerDef extends AbstractTower implements Upgradable {
     // Показ информации о башне
     public void Info() {
         System.out.println("Уровень = " + lvl + ", Урон = " + dmg + ", Дальность = " + range);
+        if(type == 1) System.out.println("Обычная башня.");
     }
 
     // Строительство башни

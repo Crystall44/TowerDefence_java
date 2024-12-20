@@ -1,13 +1,13 @@
 package TowerDefence;
 
-// Класс врага-босса, наследующий от Enemy
-abstract class BossEnemy extends Enemy {
+// Структура босса - дочерний класс Enemy
+class BossEnemy extends Enemy {
     public BossEnemy() {
+        super();
         setName("Boss");
-        setHp((short) 500);  // Здоровье босса
-        setCost(20);         // Стоимость босса
-        setDmg((short) 50);  // Урон босса
-        setPct('B');         // Символ для босса
+        setHp((short) 500);
+        setCost(20);
+        setDmg((short) 50);
+        setPct('B');
     }
 }
-
